@@ -1,0 +1,509 @@
+{
+  "info": {
+    "_postman_id": "893c5d64-e1b9-478a-923f-e8b983d97fa1",
+    "name": "CivicPulse API Collection",
+    "description": "Comprehensive Postman test collection for CivicPulse - Smart Public Complaint Prioritization system.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Authentication",
+      "item": [
+        {
+          "name": "Login - Citizen (Arun Kumar)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.data && res.data.token) {",
+                  "    pm.environment.set('authToken', res.data.token);",
+                  "    console.log('Token stored in environment variable: authToken');",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"arun.kumar@gmail.com\",\n  \"password\": \"citizen123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Login - Official (Roads Officer)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.data && res.data.token) {",
+                  "    pm.environment.set('authToken', res.data.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"roads.officer@civicpulse.gov\",\n  \"password\": \"official123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Login - Admin (Chief Admin Officer)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.data && res.data.token) {",
+                  "    pm.environment.set('authToken', res.data.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@civicpulse.gov\",\n  \"password\": \"admin123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Get Authenticated User Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "me"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Public Grievances & Reference",
+      "item": [
+        {
+          "name": "Public Feed (Prioritized Feed)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/complaints/public-feed",
+              "host": ["{{baseUrl}}"],
+              "path": ["complaints", "public-feed"]
+            }
+          }
+        },
+        {
+          "name": "Track Complaint by Tracking Number",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/complaints/track/{{sampleTrackingNumber}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["complaints", "track", "{{sampleTrackingNumber}}"]
+            }
+          }
+        },
+        {
+          "name": "List All Municipal Departments",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/departments",
+              "host": ["{{baseUrl}}"],
+              "path": ["departments"]
+            }
+          }
+        },
+        {
+          "name": "List Categories for Department",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/departments/1/categories",
+              "host": ["{{baseUrl}}"],
+              "path": ["departments", "1", "categories"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Citizen Operations",
+      "item": [
+        {
+          "name": "Submit Complaint (JSON)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.data && res.data.id) {",
+                  "    pm.environment.set('sampleComplaintId', res.data.id);",
+                  "    pm.environment.set('sampleTrackingNumber', res.data.trackingNumber);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"categoryId\": 1,\n  \"title\": \"Dangerous pothole near 80ft road junction\",\n  \"description\": \"Large pothole measuring approx 2 feet wide, causes severe traffic slowdown and hazard for two-wheelers.\",\n  \"severity\": \"HIGH\",\n  \"latitude\": 12.9716,\n  \"longitude\": 77.5946,\n  \"addressLandmark\": \"Near 80ft Road Junction, opposite Metro pillar 140\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/complaints/json",
+              "host": ["{{baseUrl}}"],
+              "path": ["complaints", "json"]
+            }
+          }
+        },
+        {
+          "name": "Cancel Complaint (Own & SUBMITTED only)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/complaints/{{sampleComplaintId}}/cancel",
+              "host": ["{{baseUrl}}"],
+              "path": ["complaints", "{{sampleComplaintId}}", "cancel"]
+            }
+          }
+        },
+        {
+          "name": "Toggle Upvote (Signal community impact)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/complaints/{{sampleComplaintId}}/upvote",
+              "host": ["{{baseUrl}}"],
+              "path": ["complaints", "{{sampleComplaintId}}", "upvote"]
+            }
+          }
+        },
+        {
+          "name": "Get Authenticated Citizen's Complaints",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/complaints/my?page=0&size=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["complaints", "my"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Official Operations",
+      "item": [
+        {
+          "name": "Official Prioritization Queue",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/official/complaints?sort=priorityScore,desc",
+              "host": ["{{baseUrl}}"],
+              "path": ["official", "complaints"],
+              "query": [
+                {
+                  "key": "sort",
+                  "value": "priorityScore,desc"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Assign Complaint to Official",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"officialId\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/official/complaints/{{sampleComplaintId}}/assign",
+              "host": ["{{baseUrl}}"],
+              "path": ["official", "complaints", "{{sampleComplaintId}}", "assign"]
+            }
+          }
+        },
+        {
+          "name": "Update Operational Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"IN_PROGRESS\",\n  \"remarks\": \"Asphalt repair vehicle dispatched to site.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/official/complaints/{{sampleComplaintId}}/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["official", "complaints", "{{sampleComplaintId}}", "status"]
+            }
+          }
+        },
+        {
+          "name": "Resolve Complaint (JSON Remarks)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"remarks\": \"Pothole completely filled and leveled with bituminous cold mix. Road reopened safely.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/official/complaints/{{sampleComplaintId}}/resolve/json",
+              "host": ["{{baseUrl}}"],
+              "path": ["official", "complaints", "{{sampleComplaintId}}", "resolve", "json"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Duplicate Detection & Triage",
+      "item": [
+        {
+          "name": "Get Pending Duplicate Candidates",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/duplicates/pending",
+              "host": ["{{baseUrl}}"],
+              "path": ["duplicates", "pending"]
+            }
+          }
+        },
+        {
+          "name": "Review & Confirm Merge Duplicate",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"CONFIRMED_MERGED\",\n  \"remarks\": \"Confirmed identical incident at same metro pillar location. Merged to primary issue.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/duplicates/1/review",
+              "host": ["{{baseUrl}}"],
+              "path": ["duplicates", "1", "review"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. Administration & Governance",
+      "item": [
+        {
+          "name": "Department Analytics Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/analytics/dashboard",
+              "host": ["{{baseUrl}}"],
+              "path": ["analytics", "dashboard"]
+            }
+          }
+        },
+        {
+          "name": "Trigger SLA Escalation Sweep",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/escalation/trigger",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "escalation", "trigger"]
+            }
+          }
+        },
+        {
+          "name": "List Department Officials",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/officials?departmentId=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "officials"],
+              "query": [
+                {
+                  "key": "departmentId",
+                  "value": "1"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

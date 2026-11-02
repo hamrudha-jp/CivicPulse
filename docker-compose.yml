@@ -1,0 +1,29 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: civicpulse_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-civicpulse_db}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in your .env file}
+    ports:
+      # PORT CONFLICT GUIDANCE:
+      # If you already have PostgreSQL running natively on your host machine on port 5432,
+      # do NOT collide with it. Either stop your local PostgreSQL or change the host port here
+      # (e.g. "5433:5432" or set POSTGRES_PORT=5433 in your .env file).
+      # If mapped to 5433, set SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5433/civicpulse_db
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - civicpulse_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-civicpulse_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+volumes:
+  civicpulse_pgdata:
+    name: civicpulse_pgdata
+    driver: local

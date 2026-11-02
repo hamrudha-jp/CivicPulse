@@ -1,0 +1,22 @@
+# Environments and Secrets
+.env
+.env.local
+*.env
+
+# Backend Build & Runtime
+backend/target/
+backend/uploads/
+uploads/
+*.log
+
+# Frontend Build & Dependencies
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# IDE & System Files
+.idea/
+*.iml
+.vscode/
+.DS_Store
+Thumbs.db
