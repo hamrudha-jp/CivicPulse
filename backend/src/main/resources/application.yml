@@ -10,8 +10,8 @@ spring:
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/civicpulse_db}
     username: ${SPRING_DATASOURCE_USERNAME:postgres}
-
-    driver-class-name: org.postgrpassword: ${SPRING_DATASOURCE_PASSWORD}esql.Driver
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: update
