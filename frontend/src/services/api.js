@@ -1,6 +1,6 @@
 // CivicPulse API Client
 
-const BASE_URL = '/api/v1';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api/v1';
 
 export function getAuthToken() {
   return localStorage.getItem('civicpulse_token');
